@@ -58,13 +58,17 @@ def _():
     return LabelEncoder, label_encoder
 
 
-app._unparsable_cell(
-    r"""
-    train_data[\"date\"] = pd.to_datetime(train_data[\"date\"])\"]
-    train_data[\"date\"] = train_data[\"date\"].astype(\"int64\")
-    """,
-    name="_"
-)
+@app.cell
+def _(pd, train_data):
+    train_data["date"] = pd.to_datetime(train_data["date"])
+    train_data["date"] = train_data["date"].view("int64")
+    return
+
+
+@app.cell
+def _(train_data):
+    train_data.columns
+    return
 
 
 @app.cell
